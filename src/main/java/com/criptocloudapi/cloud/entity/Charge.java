@@ -1,6 +1,6 @@
 package com.criptocloudapi.cloud.entity;
 
-import com.criptocloudapi.cloud.utils.ChargeStatus;
+import com.criptocloudapi.cloud.model.ChargeStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

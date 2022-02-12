@@ -5,12 +5,10 @@ server:
     include-bindind-errors: always
 spring:
   datasource:
-    url: jdbc:h2:mem:testdb
-    username: sa
-    password:
-    driverClassName: org.h2.Driver
-  h2:
-    console.enabled: true
-    console.path: /h2
+    url: jdbc:mysql://localhost:3306/financial_crypto
+    username: financial_admin
+    password: appadmin%
+    driverClassName: com.mysql.cj.jdbc.Driver
   jpa:
-    spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
+    hibernate.ddl-auto: update
+    generate-ddl: true
