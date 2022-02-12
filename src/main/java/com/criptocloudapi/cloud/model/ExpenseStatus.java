@@ -1,5 +1,5 @@
 package com.criptocloudapi.cloud.model;
 
-public enum ChargeStatus {
+public enum ExpenseStatus {
     PAID, OVERDUE, SCHEDULED
 }

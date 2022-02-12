@@ -1,6 +1,6 @@
 package com.criptocloudapi.cloud.entity;
 
-import com.criptocloudapi.cloud.model.ChargeStatus;
+import com.criptocloudapi.cloud.model.ExpenseStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,22 +12,23 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 
-@Table(name = "charge")
+@Table(name = "expense")
 @Entity
 @Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Charge {
+public class Expense {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "cod_charge")
-    private String codDisbursement;
+    @Column(name = "cod_expense")
+    private UUID codExpense;
 
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(nullable = false, referencedColumnName = "cod_user")
@@ -36,14 +37,14 @@ public class Charge {
     @Column(name = "description", nullable = false)
     private String description;
 
-    @Column(name = "charge_value", nullable = false)
-    private BigDecimal chargeValue;
+    @Column(name = "expense_value", nullable = false)
+    private BigDecimal expenseValue;
 
-    @Column(name = "dat_charge", nullable = false)
-    private LocalDate datDisbursement;
+    @Column(name = "dat_expense", nullable = false)
+    private LocalDate datExpense;
 
     @Column(name = "status")
-    private ChargeStatus status;
+    private ExpenseStatus status;
 
     @Column(name = "created_at")
     @CreationTimestamp

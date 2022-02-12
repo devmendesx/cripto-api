@@ -3,12 +3,14 @@ package com.criptocloudapi.cloud.dto.request;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 @Data
 @Builder
 @AllArgsConstructor
-public class UserDTO {
+@NoArgsConstructor
+public class UserDto {
     private String email;
     private String firstName;
     private String lastName;

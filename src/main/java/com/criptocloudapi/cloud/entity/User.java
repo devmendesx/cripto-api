@@ -9,8 +9,9 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
-@Table(name = "users")
+@Table(name = "user")
 @Entity
 @Builder
 @Data
@@ -19,16 +20,11 @@ import java.time.LocalDateTime;
 public class   User {
 
     @Id
-    @SequenceGenerator(
-            name = "user_sequence",
-            sequenceName = "user_sequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "user_sequence")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "cod_user")
-    private String codUser;
+    private UUID codUser;
 
     @Column(name = "email")
     private String email;

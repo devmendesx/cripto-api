@@ -12,20 +12,23 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
+
+@Table(name = "revenue")
 @Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Income {
+public class Revenue {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "cod_income")
-    private String codIncome;
+    @Column(name = "cod_revenue")
+    private UUID codRevenue;
 
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(nullable = false, referencedColumnName = "cod_user")
@@ -34,11 +37,11 @@ public class Income {
     @Column(name = "description", nullable = false)
     private String description;
 
-    @Column(name = "income_value", nullable = false)
-    private BigDecimal incomeValue;
+    @Column(name = "revenue_value", nullable = false)
+    private BigDecimal revenueValue;
 
-    @Column(name = "dat_income", nullable = false)
-    private LocalDate datIncome;
+    @Column(name = "dat_revenue", nullable = false)
+    private LocalDate datRevenue;
 
     @Column(name = "status")
     private String status;
