@@ -12,3 +12,7 @@ spring:
   jpa:
     hibernate.ddl-auto: update
     generate-ddl: true
+cripto-app:
+  jwt:
+    expiration: 86400000
+    secret: w&$#Qa-qS4Tp+!hL9s-"h&dhU01oX9*<.GY2QKwf^Twdl>cb"Ebm#U0DVMN0"WF
