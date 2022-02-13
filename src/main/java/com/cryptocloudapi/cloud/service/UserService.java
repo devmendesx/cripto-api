@@ -1,13 +1,11 @@
 package com.cryptocloudapi.cloud.service;
 
-import com.cryptocloudapi.cloud.dto.request.UserDto;
 import com.cryptocloudapi.cloud.dto.response.UserDetailsDto;
 import com.cryptocloudapi.cloud.entity.User;
 import com.cryptocloudapi.cloud.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,7 +38,6 @@ public class UserService {
 
 
     public List<User> findAll(){
-
         return userRepository.findAll();
     }
     public UserDetailsDto findUser(String code){

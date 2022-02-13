@@ -1,8 +1,9 @@
 package com.cryptocloudapi.cloud.app.config.security.service;
 
 
+import com.cryptocloudapi.cloud.dto.response.MessageResponseDto;
 import com.cryptocloudapi.cloud.dto.request.UserDto;
-import com.cryptocloudapi.cloud.app.config.security.service.dto.OAuthResponseDto;
+import com.cryptocloudapi.cloud.dto.request.UserPasswordChangeDto;
 import com.cryptocloudapi.cloud.entity.User;
 import com.cryptocloudapi.cloud.repository.UserRepository;
 import com.cryptocloudapi.cloud.service.UserService;
@@ -33,12 +34,12 @@ public class AuthenticationService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
     }
 
-    public OAuthResponseDto register(UserDto userBody) {
-        OAuthResponseDto userResponseDto = OAuthResponseDto.builder().build();
+    public MessageResponseDto register(UserDto userBody) {
+        MessageResponseDto messageResponseDto = MessageResponseDto.builder().build();
         Optional<User> userByEmail = userService.findUserByEmail(userBody.getEmail());
         if(userByEmail.isPresent()) {
-            userResponseDto.setMessage("Usuário já cadastrado!");
-            return userResponseDto;
+            messageResponseDto.setMessage("Usuário já cadastrado!");
+            return messageResponseDto;
         }
         User newUser = User.builder()
                 .email(userBody.getEmail())
@@ -46,13 +47,23 @@ public class AuthenticationService implements UserDetailsService {
                 .firstName(userBody.getFirstName())
                 .lastName(userBody.getLastName())
                 .password(passwordEncoder.encode(userBody.getPassword())).build();
-        User user = userRepository.save(newUser);
-        userResponseDto.setMessage("Usuário cadastrado com sucesso!");
-        return userResponseDto;
+        userRepository.save(newUser);
+        messageResponseDto.setMessage("Usuário cadastrado com sucesso!");
+        return messageResponseDto;
     }
 
 
     public UsernamePasswordAuthenticationToken userTokenCreator(UserDto userDto){
         return new UsernamePasswordAuthenticationToken(userDto.getEmail(),userDto.getPassword());
+    }
+
+    public MessageResponseDto changePassword(UserPasswordChangeDto userDto) {
+        User user = userService.findUserByCode(userDto.getCode());
+        if(passwordEncoder.matches(userDto.getOldPassword(), user.getPassword())){
+            user.setPassword(passwordEncoder.encode(userDto.getNewPassword()));
+            return MessageResponseDto.builder().message("Senha alterada com sucesso!").build();
+        }
+        else
+            return MessageResponseDto.builder().message("Senha atual inválida!").build();
     }
 }

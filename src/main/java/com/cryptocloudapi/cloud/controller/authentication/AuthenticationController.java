@@ -2,9 +2,10 @@ package com.cryptocloudapi.cloud.controller.authentication;
 
 import com.cryptocloudapi.cloud.app.config.security.service.AuthenticationService;
 import com.cryptocloudapi.cloud.app.config.security.service.TokenService;
+import com.cryptocloudapi.cloud.dto.response.MessageResponseDto;
 import com.cryptocloudapi.cloud.dto.request.UserDto;
-import com.cryptocloudapi.cloud.dto.response.TokenDto;
-import com.cryptocloudapi.cloud.app.config.security.service.dto.OAuthResponseDto;
+import com.cryptocloudapi.cloud.dto.request.UserPasswordChangeDto;
+import com.cryptocloudapi.cloud.app.config.security.service.dto.TokenDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,15 +35,15 @@ public class AuthenticationController {
     @Autowired
     private AuthenticationService authenticationService;
 
-    @PostMapping
-    public ResponseEntity<?> auth(@RequestBody UserDto userDto){
+    @PostMapping("/login")
+    public ResponseEntity<?> authenticate(@RequestBody UserDto userDto){
         UsernamePasswordAuthenticationToken user = authenticationService.userTokenCreator(userDto);
         try{
             Authentication authentication = authenticationManager.authenticate(user);
             String token = tokenService.generateToken(authentication);
-            return ResponseEntity.status(200).body(new TokenDto(token, "Bearer"));
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(new TokenDto(token, "Bearer"));
         }catch(AuthenticationException ex ){
-            return ResponseEntity.status(400).body(ex.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
         }
     }
 
@@ -53,10 +54,22 @@ public class AuthenticationController {
             return ResponseEntity.status(HttpStatus.CREATED).body(authenticationService.register(userBody));
         } catch (IllegalArgumentException ex) {
             return ResponseEntity.status(400).body(
-                    OAuthResponseDto.builder()
+                    MessageResponseDto.builder()
                             .message(ex.getMessage())
             );
         }
     }
 
+    @PutMapping("/password/change")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public ResponseEntity<?> password(@RequestBody UserPasswordChangeDto userDto){
+        try{
+            return ResponseEntity.status(HttpStatus.OK).body(authenticationService.changePassword(userDto));
+        }catch(IllegalArgumentException ex){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                    MessageResponseDto.builder()
+                            .message(ex.getMessage())
+            );
+        }
+    }
 }

@@ -1,4 +1,4 @@
-package com.cryptocloudapi.cloud.app.config.security.service.dto;
+package com.cryptocloudapi.cloud.dto.response;
 
 
 import lombok.AllArgsConstructor;
@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class OAuthResponseDto {
+public class MessageResponseDto {
     private String message;
 }
